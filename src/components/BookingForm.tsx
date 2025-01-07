@@ -12,8 +12,26 @@ const BookingForm = () => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const formData = new FormData(e.currentTarget);
+    const bookingData = {
+      id: Date.now(),
+      name: formData.get("name"),
+      email: formData.get("email"),
+      pickup: formData.get("pickup"),
+      delivery: formData.get("delivery"),
+      details: formData.get("details"),
+      status: "pending",
+      date: new Date().toISOString().split("T")[0],
+    };
+
+    // Get existing bookings from localStorage
+    const existingBookings = JSON.parse(localStorage.getItem("bookings") || "[]");
+    
+    // Add new booking
+    localStorage.setItem(
+      "bookings",
+      JSON.stringify([...existingBookings, bookingData])
+    );
     
     toast({
       title: "Booking Submitted",
@@ -21,7 +39,7 @@ const BookingForm = () => {
     });
     
     setLoading(false);
-    (e.target as HTMLFormElement).reset();
+    e.currentTarget.reset();
   };
 
   return (
@@ -45,6 +63,7 @@ const BookingForm = () => {
                 </label>
                 <Input
                   id="name"
+                  name="name"
                   required
                   placeholder="John Doe"
                   className="w-full"
@@ -56,6 +75,7 @@ const BookingForm = () => {
                 </label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   required
                   placeholder="john@example.com"
@@ -70,6 +90,7 @@ const BookingForm = () => {
               </label>
               <Input
                 id="pickup"
+                name="pickup"
                 required
                 placeholder="Enter pickup address"
                 className="w-full"
@@ -82,6 +103,7 @@ const BookingForm = () => {
               </label>
               <Input
                 id="delivery"
+                name="delivery"
                 required
                 placeholder="Enter delivery address"
                 className="w-full"
@@ -94,6 +116,7 @@ const BookingForm = () => {
               </label>
               <Textarea
                 id="details"
+                name="details"
                 required
                 placeholder="Please provide details about your cargo (type, weight, dimensions, etc.)"
                 className="w-full"
