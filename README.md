@@ -19,7 +19,7 @@ Follow these steps:
 
 ```sh
 # Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone https://github.com/anziiiiii/cargo-craft-landing.git
 
 # Step 2: Navigate to the project directory.
 cd cargo-craft-landing
